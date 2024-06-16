@@ -22,12 +22,13 @@ diff --git a/arch/arm/dts/socfpga_cyclone5_de1_soc.dts b/arch/arm/dts/socfpga_cy
 index ff1e61e0cb..b71496bfb5 100644
 --- a/arch/arm/dts/socfpga_cyclone5_de1_soc.dts
 +++ b/arch/arm/dts/socfpga_cyclone5_de1_soc.dts
-@@ -75,6 +75,7 @@
+@@ -75,6 +75,6 @@
  };
  
  &uart0 {
-+	clock-frequency = <100000000>;
- 	u-boot,dm-pre-reloc;
+	clock-frequency = <100000000>;
+-	bootph-all;
++	u-boot,dm-pre-reloc;
  };
  
 -- 

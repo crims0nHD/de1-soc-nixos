@@ -22,6 +22,7 @@
     populateRootCommands = ''
       mkdir -p ./files/boot
       ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
+      cp ${pkgs.bootScript} ./files/boot/u-boot.scr
     '';
   };
 }

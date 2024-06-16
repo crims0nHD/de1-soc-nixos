@@ -15,11 +15,16 @@
   # This also breaks the generation system, but there's not much we can do
   # about that. The alternative to this villainy is to vendor
   # generic-extlinux-compatible, but that's more work.
-  system.systemBuilderArgs = {
-    installBootLoader = pkgs.writeShellScript "install-bootloader.sh" ''
-      ${config.system.build.installBootLoader} $1
-      cp ${pkgs.bootScript} /boot/u-boot.scr
-    '';
+  # system.systemBuilderArgs = {
+  #   installBootLoader = pkgs.writeShellScript "install-bootloader.sh" ''
+  #     ${config.system.build.installBootLoader} $1
+  #     cp ${pkgs.bootScript} /boot/u-boot.scr
+  #   '';
+  # };
+
+  # generic-extlinux-compatible for uboot
+  boot.loader.generic-extlinux-compatible = {
+    enable = true;
   };
 
   environment.systemPackages = with pkgs; [

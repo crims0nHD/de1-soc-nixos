@@ -16,7 +16,7 @@
 with lib;
 
 let
-  rootfsImage = pkgs.callPackage "${modulesPath}/../lib/make-ext4-fs.nix" ({
+  rootfsImage = pkgs.callPackage ./custom-make-ext4-fs.nix ({
     inherit (config.sdImage) storePaths;
     compressImage = config.sdImage.compressImage;
     populateImageCommands = config.sdImage.populateRootCommands;
@@ -85,7 +85,7 @@ in
     firmwareSize = mkOption {
       type = types.int;
       # As of 2019-08-18 the Raspberry pi firmware + u-boot takes ~18MiB
-      default = 30;
+      default = 100;
       description = lib.mdDoc ''
         Size of the /boot/firmware partition, in megabytes.
       '';

@@ -56,7 +56,7 @@
         modules = [
           ({ pkgs, config, ... }: {
             # cross compile to armv7l-hf-multiplatform
-            nixpkgs.buildPlatform = { system = "x86_64-linux"; };
+            nixpkgs.buildPlatform = { system = "aarch64-linux"; };
             nixpkgs.hostPlatform = { system = "armv7l-linux"; config = "armv7l-unknown-linux-gnueabihf"; };
             boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
             nixpkgs.overlays = [ self.overlays.default ];

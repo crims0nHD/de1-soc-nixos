@@ -2,19 +2,19 @@
 { stdenv, hostPlatform, lib, buildPackages, fetchFromGitHub, perl, buildLinux, linuxKernel, ... } @ args:
 
 let
-  modDirVersion = "5.15.50";
-  tag = "de45b8accd27747b1f4db4cc5e2522ee338e3eee";
+  modDirVersion = "6.1.68";
+  tag = "d9816a2213846a68a462dc8b0cbc432d79b03114";
 
 base = buildLinux (args // {
   version = "${modDirVersion}";
   inherit modDirVersion;
-  extraMeta.branch = "5.15";
+  extraMeta.branch = "6.1";
 
   src = fetchFromGitHub {
     owner = "altera-opensource";
     repo = "linux-socfpga";
     rev = tag;
-    hash = "sha512-1HQhFMxYoDKVeJuNXygHSFAwC0Vjlv9GmSYJ034v5e+Z16oofmXfR+4/g44crT2qyL+QBVA0twzqtJfj9mliaQ==";
+    hash = "sha256-Lg3ANDQ6qJwSKF4yZqRu5Ag6wg4h3x/D1Tl+xkrvouk=";
   };
 
   kernelPatches = [{
