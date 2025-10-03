@@ -14,13 +14,20 @@
             overlays = [ self.overlays.default ];
           };
           crossPkgs = pkgs.pkgsCross.armv7l-hf-multiplatform;
+
+
+          buildConfigModule = ({ ... }: {
+            # cross compile to armv7l-hf-multiplatform
+            nixpkgs.buildPlatform = { system = system; };
+            nixpkgs.hostPlatform = { system = "armv7l-linux"; config = "armv7l-unknown-linux-gnueabihf"; };
+	  });
         in
         {
           packages = {
             linux = crossPkgs.callPackage ./kernel.nix { };
             uboot = crossPkgs.callPackage ./uboot.nix { };
-            sdImage = self.nixosConfigurations.fpga.config.system.build.sdImage;
-            system = self.nixosConfigurations.fpga.config.system.build.toplevel;
+            sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
+            system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
             deploy = pkgs.writeShellScriptBin "deploy" ''
               if [[ $# != 1 ]]; then
                 echo "Usage: $0 IP_ADDR"
@@ -47,27 +54,26 @@
             ];
           };
 
+	
+
+	      nixosConfigurations.fpga = nixpkgs.lib.nixosSystem {
+		modules = [
+		  buildConfigModule
+		  ({ pkgs, config, ... }: {
+		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
+		    nixpkgs.overlays = [ self.overlays.default ];
+
+		    system.stateVersion = "23.05";
+		  })
+		  ./sd-image.nix
+		  ./fpga-sdimage.nix
+		  ./system.nix
+		];
+	      };
+
         };
     in
-    flake-utils.lib.eachDefaultSystem out // {
-      overlays.default = import ./overlay.nix;
-
-      nixosConfigurations.fpga = nixpkgs.lib.nixosSystem {
-        modules = [
-          ({ pkgs, config, ... }: {
-            # cross compile to armv7l-hf-multiplatform
-            nixpkgs.buildPlatform = { system = "aarch64-linux"; };
-            nixpkgs.hostPlatform = { system = "armv7l-linux"; config = "armv7l-unknown-linux-gnueabihf"; };
-            boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
-            nixpkgs.overlays = [ self.overlays.default ];
-
-            system.stateVersion = "23.05";
-          })
-          ./sd-image.nix
-          ./fpga-sdimage.nix
-          ./system.nix
-        ];
-      };
+    (flake-utils.lib.eachDefaultSystem out) // {
+	      overlays.default = import ./overlay.nix;
     };
-
 }
