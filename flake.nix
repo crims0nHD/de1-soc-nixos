@@ -24,7 +24,7 @@
         in
         {
           packages = {
-            linux = crossPkgs.callPackage ./kernel_6-17.nix { };
+            linux = crossPkgs.callPackage ./kernel_next.nix { };
             uboot = crossPkgs.callPackage ./uboot.nix { };
             sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
             system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
@@ -60,7 +60,7 @@
 		modules = [
 		  buildConfigModule
 		  ({ pkgs, config, ... }: {
-		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_6-17.nix { });
+		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { });
 		    nixpkgs.overlays = [ self.overlays.default ];
 
 		    system.stateVersion = "23.05";

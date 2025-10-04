@@ -8,8 +8,8 @@ base = buildLinux (args // {
   extraMeta.branch = "next";
 
   src = builtins.fetchGit {
-	url = "git@gitlab.com:linux-kernel/linux-next.git";
-	ref = "next-20251003";
+	url = "git@gitlab.com:ssl-r2d2/linux/linux-next.git";
+	ref = "linux-de1-next";
 	rev = "47a8d4b89844f5974f634b4189a39d5ccbacd81c";
   };
 
