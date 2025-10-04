@@ -63,7 +63,7 @@
 		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { });
 		    nixpkgs.overlays = [ self.overlays.default ];
 
-		    system.stateVersion = "23.05";
+		    system.stateVersion = "25.05";
 		  })
 		  ./sd-image.nix
 		  ./fpga-sdimage.nix

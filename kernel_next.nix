@@ -3,9 +3,9 @@
 
 let
 base = buildLinux (args // {
-  version = "next";
-  modDirVersion = "next";
-  extraMeta.branch = "next";
+  version = "6.17.0-next-20251003";
+  modDirVersion = "6.17.0-next-20251003";
+  extraMeta.branch = "6.17.0-next-20251003";
 
   src = builtins.fetchGit {
 	url = "git@gitlab.com:ssl-r2d2/linux/linux-next.git";
