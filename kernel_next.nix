@@ -1,5 +1,5 @@
 # from nixpkgs: https://github.com/nixos/nixpkgs/blob/6c46f55495fcb048e624e18862db8422e4c70ee3/pkgs/os-specific/linux/kernel/linux-rpi.nix
-{ stdenv, hostPlatform, lib, buildPackages, fetchFromGitHub, perl, buildLinux, linuxKernel, ... } @ args:
+{ stdenv, hostPlatform, lib, buildPackages, fetchFromGitHub, perl, buildLinux, linuxKernel, clangStdenv, ... } @ args:
 
 let
 base = buildLinux (args // {
@@ -18,13 +18,14 @@ base = buildLinux (args // {
   defconfig = "socfpga_defconfig";
 
   features = {
+    rust = true;
     efiBootStub = false;
     iwlwifi = false;
   } // (args.features or { });
 } // args.argsOverride or { });
 in
 linuxKernel.manualConfig {
-  inherit stdenv;
+  stdenv = clangStdenv;
   inherit (base) src version;
   configfile = ./socfpga_kconfig;
   allowImportFromDerivation = true;

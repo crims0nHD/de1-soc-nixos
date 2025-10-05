@@ -8,12 +8,12 @@ let
 in
 buildUBoot {
   src = fetchFromGitHub {
-    owner = "altera-opensource";
+    owner = "altera-fpga";
     repo = "u-boot-socfpga";
-    rev = "639a1ac83230d569ce5c6ed9960e40fc52b4d7fe";
-    sha256 = "sha256-Yfjq+k7MRc5BuXdxqOUI1vp1vrE0AlgIe8ZHnooDy6o=";
+    rev = "08197d3d7344b6d32f3ac6154771f2412a50d967";
+    sha256 = "";
   };
-  version = "socfpga_22.04";
+  version = "socfpga_25.04";
 
   defconfig = "socfpga_de1_soc_defconfig";
   filesToInstall = [ "spl/u-boot-spl" "u-boot" "u-boot-with-spl.sfp" ];
