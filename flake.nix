@@ -1,7 +1,7 @@
 {
   description = "NixOS for Cyclone V DE1-SoC";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -15,7 +15,6 @@
           };
           crossPkgs = pkgs.pkgsCross.armv7l-hf-multiplatform;
 
-
           buildConfigModule = ({ ... }: {
             # cross compile to armv7l-hf-multiplatform
             nixpkgs.buildPlatform = { system = system; };
@@ -24,7 +23,7 @@
         in
         {
           packages = {
-            linux = crossPkgs.callPackage ./kernel_next.nix { };
+            linux = ((crossPkgs.override { stdenv = crossPkgs.llvmPackages.stdenv; }).callPackage ./kernel_next.nix { }).override { stdenv = crossPkgs.llvmPackages.stdenv; } ;
             uboot = crossPkgs.callPackage ./uboot.nix { };
             sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
             system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
@@ -60,10 +59,10 @@
 		modules = [
 		  buildConfigModule
 		  ({ pkgs, config, ... }: {
-		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { });
+		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { }).override { stdenv = pkgs.llvmPackages.stdenv; };
 		    nixpkgs.overlays = [ self.overlays.default ];
 
-		    system.stateVersion = "25.11";
+		    system.stateVersion = "25.05";
 		  })
 		  ./sd-image.nix
 		  ./fpga-sdimage.nix
