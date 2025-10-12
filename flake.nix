@@ -23,7 +23,7 @@
         in
         {
           packages = {
-            linux = ((crossPkgs.override { stdenv = crossPkgs.llvmPackages.stdenv; }).callPackage ./kernel_next.nix { }).override { stdenv = crossPkgs.llvmPackages.stdenv; } ;
+            linux = (crossPkgs.callPackage ./kernel_next.nix { }).override { stdenv = crossPkgs.llvmPackages.stdenv; } ;
             uboot = crossPkgs.callPackage ./uboot.nix { };
             sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
             system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
@@ -59,7 +59,7 @@
 		modules = [
 		  buildConfigModule
 		  ({ pkgs, config, ... }: {
-		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { }).override { stdenv = pkgs.llvmPackages.stdenv; };
+		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel_next.nix { });
 		    nixpkgs.overlays = [ self.overlays.default ];
 
 		    system.stateVersion = "25.05";

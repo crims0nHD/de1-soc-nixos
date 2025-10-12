@@ -22,8 +22,6 @@ base = buildLinux (args // {
     "ARCH=arm"
   ]; 
 
-  stdenv = llvmPackages.stdenv;
-
   features = {
     rust = true;
     efiBootStub = false;
@@ -32,8 +30,6 @@ base = buildLinux (args // {
 } // args.argsOverride or { });
 in
 linuxKernel.manualConfig {
-  stdenv = llvmPackages.stdenv;
-
   inherit (base) src version;
   configfile = ./socfpga_kconfig;
   allowImportFromDerivation = true;
