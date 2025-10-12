@@ -59,7 +59,7 @@ pkgs.stdenv.mkDerivation {
       # If the script starts failing, increase the fudge factors here.
       numInodes=$(find ./rootImage | wc -l)
       numDataBlocks=$(du -s -c -B 4096 --apparent-size ./rootImage | tail -1 | awk '{ print int($1 * 1.10) }')
-      bytes=$((2 * 4096 * $numInodes + 4096 * $numDataBlocks + 50000000))
+      bytes=$((2 * 4096 * $numInodes + 4096 * $numDataBlocks + 200000000))
       echo "Creating an EXT4 image of $bytes bytes (numInodes=$numInodes, numDataBlocks=$numDataBlocks)"
 
       truncate -s $bytes $img
