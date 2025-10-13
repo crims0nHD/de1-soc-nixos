@@ -8,12 +8,12 @@ let
 in
 buildUBoot {
   src = fetchFromGitHub {
-    owner = "altera-fpga";
+    owner = "altera-opensource";
     repo = "u-boot-socfpga";
-    rev = "08197d3d7344b6d32f3ac6154771f2412a50d967";
-    sha256 = "sha256-mFcXkuCHjRA4RbnccvJgzcMg0J1lFTF7FVV9nfiwiL0=";
+    rev = "639a1ac83230d569ce5c6ed9960e40fc52b4d7fe";
+    sha256 = "sha256-Yfjq+k7MRc5BuXdxqOUI1vp1vrE0AlgIe8ZHnooDy6o=";
   };
-  version = "socfpga_25.04";
+  version = "socfpga_22.04";
 
   defconfig = "socfpga_de1_soc_defconfig";
   filesToInstall = [ "spl/u-boot-spl" "u-boot" "u-boot-with-spl.sfp" ];
@@ -26,7 +26,7 @@ buildUBoot {
   extraPatches = [
     # https://lists.denx.de/pipermail/u-boot/2023-February/508674.html
     # NOTE: this patch was implemented in 2023, keep it until testing has finished
-    #./patches/u-boot/0001-socfpga-fix-the-serial-console-on-DE1-SoC.patch
+    ./patches/u-boot/0001-socfpga-fix-the-serial-console-on-DE1-SoC.patch
     
     # Linux was rebooting after a few seconds. This is unclear whether it
     # should actually be in u-boot, since it's only relevant to Linux, and
