@@ -58,9 +58,13 @@
 	      nixosConfigurations.fpga = nixpkgs.lib.nixosSystem {
 		modules = [
 		  buildConfigModule
-		  ({ pkgs, config, ... }: {
-		    boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernels/kernel_6-18-rc1.nix { });
-        boot.extraModulePackages = (pkgs.callPackage ./kmodules/module_dtbocfg.nix { });
+		  ({ pkgs, config, ... }: 
+      let 
+        customKernelPackage = pkgs.linuxPackagesFor (pkgs.callPackage ./kernels/kernel_6-18-rc1.nix { });
+      in
+      {
+		    boot.kernelPackages = customKernelPackage;
+        boot.extraModulePackages = [ (customKernelPackage.callPackage ./kmodules/module_dtbocfg.nix { }) ];
 		    nixpkgs.overlays = [ self.overlays.default ];
 
 		    system.stateVersion = "25.05";
