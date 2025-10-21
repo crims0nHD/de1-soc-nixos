@@ -23,7 +23,7 @@
         in
         {
           packages = {
-            linux = (crossPkgs.callPackage ./kernels/kernel_6-18-rc1.nix { }).override { stdenv = crossPkgs.llvmPackages.stdenv; } ;
+            linux = crossPkgs.callPackage ./kernels/kernel_6-18-rc1.nix { } ;
             uboot = crossPkgs.callPackage ./uboot.nix { };
             sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
             system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
