@@ -54,11 +54,16 @@
 
       nixosConfigurations.fpga = nixpkgs.lib.nixosSystem {
         modules = [
-          ({ pkgs, config, ... }: {
+          ({ pkgs, config, ... }: 
+            let
+              kernelPkgs = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
+            in
+            {
             # cross compile to armv7l-hf-multiplatform
             nixpkgs.buildPlatform = { system = "x86_64-linux"; };
             nixpkgs.hostPlatform = { system = "armv7l-linux"; config = "armv7l-unknown-linux-gnueabihf"; };
-            boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.callPackage ./kernel.nix { });
+            boot.kernelPackages = kernelPkgs;
+            boot.extraModulePackages = [ (kernelPkgs.callPackage ./kmodule/sevenseg/kmodule.nix { }) ];
             nixpkgs.overlays = [ self.overlays.default ];
 
             system.stateVersion = "23.05";
