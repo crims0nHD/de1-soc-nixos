@@ -46,23 +46,16 @@ static ssize_t sev_write(struct file *file, const char __user *ubuf, size_t coun
 
     /* iterate characters and write digits left-to-right to the displays */
     uint32_t seg = 0;
-    bool was_valid = false;
     for (int i = 0; i < to_copy && i < (size_t)num; ++i) {
         char c = kbuf[i];
 
-        if (was_valid){
-            seg = seg * 16;
-        } 
-
-        was_valid = false;
-
         if (c >= '0' && c <= '9') {
+            seg = seg * 16;
             seg += c - '0';
-            was_valid = true;
         } 
         else if (c >= 'A' && c <= 'F'){
+            seg = seg * 16;
             seg += c - 'A' + 10;
-            was_valid = true;
         } 
     }
 
@@ -147,9 +140,9 @@ static int __init sev_init(void)
     /* blank displays on load */
     iowrite32(0x00006969, iomem_base);
     /* max brigtness */
-    iowrite32(0x000000FF, iomem_base + 4);
+    iowrite32(0xFFFFFFFF, iomem_base + 4);
     /* enable */
-    iowrite32(0x00000001, iomem_base + 8);
+    iowrite32(0xFFFFFFFF, iomem_base + 8);
 
     return 0;
 
