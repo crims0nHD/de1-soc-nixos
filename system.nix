@@ -38,11 +38,24 @@
       ximSupport = false;
       guiSupport = false;
     })
+
+    wget
+    dtc
+    tmux
   ];
 
+  # TODO: differnet user
   users.users.root = {
     initialPassword = "root";
   };
 
   documentation.enable = false;
+
+  services.openssh = {
+    enable = true;
+
+    settings = {
+      PermitRootLogin = "yes";
+    };
+  };
 }
