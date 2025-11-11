@@ -8,9 +8,9 @@ base = buildLinux (args // {
   modDirVersion = version;
   extraMeta.branch = version;
 
-  src = fetchurl {
-  	url = "git+https://gitlab.com/ssl-r2d2/linux/linux-6.18-rc3-patched.git?ref=b4/rust_miscdevice_registrationdata";
-	  hash = "";
+  src = builtins.fetchGit {
+  	url = "https://gitlab.com/ssl-r2d2/linux/linux-6.18-rc3-patched.git";
+    rev = "972fc4ce6612df61024ced287cf34a66eb8f2963";
   };
 
   kernelPatches = [
