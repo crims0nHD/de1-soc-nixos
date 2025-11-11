@@ -23,7 +23,7 @@
         in
         {
           packages = {
-            linux = crossPkgs.callPackage ./kernels/kernel_6-18-rc1.nix { } ;
+            linux = crossPkgs.callPackage ./kernels/kernel_6-18-rc3-schrefl.nix { } ;
             uboot = crossPkgs.callPackage ./uboot.nix { };
             sdImage = self.nixosConfigurations."${system}".fpga.config.system.build.sdImage;
             system = self.nixosConfigurations."${system}".fpga.config.system.build.toplevel;
@@ -60,7 +60,7 @@
 		  buildConfigModule
 		  ({ pkgs, config, ... }: 
       let 
-        customKernelPackage = pkgs.linuxPackagesFor (pkgs.callPackage ./kernels/kernel_6-18-rc1.nix { });
+        customKernelPackage = pkgs.linuxPackagesFor (pkgs.callPackage ./kernels/kernel_6-18-rc3-schrefl.nix { });
       in
       {
 		    boot.kernelPackages = customKernelPackage;
