@@ -1,7 +1,7 @@
 { stdenv, lib, fetchFromGitHub, kernel, kmod, gcc }:
 
 stdenv.mkDerivation rec {
-  pname = "sevensegmod";
+  pname = "sensorv1module";
   version = "0.1";
 
   src = ./src;

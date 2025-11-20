@@ -63,7 +63,7 @@
             nixpkgs.buildPlatform = { system = "x86_64-linux"; };
             nixpkgs.hostPlatform = { system = "armv7l-linux"; config = "armv7l-unknown-linux-gnueabihf"; };
             boot.kernelPackages = kernelPkgs;
-            boot.extraModulePackages = [ (kernelPkgs.callPackage ./kmodule/sevenseg/kmodule.nix { }) ];
+            boot.extraModulePackages = [ (kernelPkgs.callPackage ./kmodule/sevenseg/kmodule.nix { }) (kernelPkgs.callPackage ./kmodule/sensorv1/kmodule.nix { })];
             nixpkgs.overlays = [ self.overlays.default ];
 
             system.stateVersion = "23.05";
